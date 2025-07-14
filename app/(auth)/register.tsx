@@ -1,0 +1,102 @@
+import { Link, useRouter } from "expo-router";
+import React, { useState } from "react";
+import {
+  Keyboard,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
+import Spacer from "../../components/Spacer";
+import ThemedButton from "../../components/ThemedButton";
+import ThemedText from "../../components/ThemedText";
+import ThemedTextInput from "../../components/ThemedTextInput";
+import ThemedView from "../../components/ThemedView";
+import { Colors } from "../../constants/Colors";
+import { useUser } from "../../hooks/useUser";
+
+const RegisterScreen = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const { register } = useUser();
+  const handleSubmit = async () => {
+    setError(null);
+    try {
+      await register(email, password);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <ThemedView style={styles.container} safe>
+        <Spacer />
+        <ThemedText title={true} style={styles.title}>
+          Register For an Account
+        </ThemedText>
+
+        <ThemedTextInput
+          style={{ width: "80%", marginBottom: 20 }}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        <ThemedTextInput
+          style={{ width: "80%", marginBottom: 20 }}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+
+        <ThemedButton onPress={handleSubmit}>
+          <ThemedText style={{ color: "#f2f2f2" }}>Register</ThemedText>
+        </ThemedButton>
+        <Spacer />
+        {error && <Text style={styles.error}>{error}</Text>}
+        <Spacer height={100} />
+        <Link href="/login">
+          <ThemedText
+            style={{
+              textDecorationLine: "underline",
+              textAlign: "center",
+            }}
+          >
+            Login Instead
+          </ThemedText>
+        </Link>
+      </ThemedView>
+    </TouchableWithoutFeedback>
+  );
+};
+
+export default RegisterScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 18,
+    marginBottom: 30,
+  },
+  error: {
+    color: Colors.warning,
+    padding: 10,
+    backgroundColor: "#f5c1c8",
+    borderColor: Colors.warning,
+    borderWidth: 1,
+    borderRadius: 6,
+    marginHorizontal: 10,
+  },
+});
