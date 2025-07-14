@@ -1,11 +1,19 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 const index = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>index</Text>
     </View>
   );
 };
 
 export default index;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
