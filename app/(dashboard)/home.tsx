@@ -1,11 +1,11 @@
 import { Text, View } from "react-native";
 
-const index = () => {
+const HomeScreen = () => {
   return (
     <View>
-      <Text>index</Text>
+      <Text>HomeScreen</Text>
     </View>
   );
 };
 
-export default index;
+export default HomeScreen;
